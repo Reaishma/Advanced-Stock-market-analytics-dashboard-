@@ -19,4 +19,6 @@ Tools and Technologies:
 An interactive dashboard is created and has four separate interactive plots where 
 Anyone can zoom in and out ,hover over the plots to see the data points and pan across the plot
 output link:
-content://com.android.providers.downloads.documents/document/raw%3A%2Fstorage%2Femulated%2F0%2FDownload%2Fipl_dashboard.html
+[![IPL Dashboard](https://drive.google.com/uc?id=1R09bEc5mw49mkKplaaapleUHOWrbgXhl)](https://drive.google.com/file/d/1R09bEc5mw49mkKplaaapleUHOWrbgXhl/view)
+
+
