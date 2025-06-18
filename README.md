@@ -22,7 +22,7 @@ A data visualization dashboard for the Indian Premier League (IPL) 🏏🔥
 [!https://drive.google.com/uc?id=1R09bEc5mw49mkKplaaapleUHOWrbgXhl](https://drive.google.com/file/d/1R09bEc5mw49mkKplaaapleUHOWrbgXhl/view) 📺
 
 *Requirements*
-- Python 3.x 🐍
+- Python 3.x 
 - Dash 📊
 - Plotly 📈
 - Pandas 📊
