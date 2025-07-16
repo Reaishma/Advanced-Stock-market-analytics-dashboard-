@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Stock Market Analytics Dashboard</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #1f77b4;
+            --secondary-color: #ff7f0e;
+            --success-color: #2ca02c;
+            --danger-color: #d62728;
+            --warning-color: #ff9800;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --gradient-primary: linear-gradient(90deg, #1f77b4 0%, #ff7f0e 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-header {
+            background: var(--gradient-primary);
+            padding: 2rem;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .main-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .main-header p {
+            margin: 0.5rem 0 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            height: fit-content;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar h3 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar h4 {
+            color: var(--dark-color);
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(31, 119, 180, 0.25);
+        }
+
+        .btn-custom {
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 0.25rem;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            color: white;
+        }
+
+        .market-overview {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .market-card {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .market-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .market-card h5 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .market-card .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .market-card .change {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .change.positive {
+            color: var(--success-color);
+        }
+
+        .change.negative {
+            color: var(--danger-color);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            border-radius: 8px 8px 0 0;
+            color: var(--dark-color);
+            font-weight: 500;
+            padding: 1rem 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background: rgba(31, 119, 180, 0.1);
+            border-color: transparent;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid #eee;
+        }
+
+        .metric-card {
+            background: var(--light-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+            margin: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .metric-card h5 {
+            color: var(--dark-color);
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .metric-card .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .metric-card .change {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .signal-card {
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+
+        .signal-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .signal-card.buy {
+            background: #d4edda;
+            border-left-color: var(--success-color);
+        }
+
+        .signal-card.sell {
+            background: #f8d7da;
+            border-left-color: var(--danger-color);
+        }
+
+        .signal-card.hold {
+            background: #fff3cd;
+            border-left-color: var(--warning-color);
+        }
+
+        .signal-card h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .signal-card .signal {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .signal-card .reason {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--primary-color);
+        }
+
+        .loading i {
+            font-size: 3rem;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-check-input {
+            margin-right: 0.5rem;
+        }
+
+        .btn-group-custom {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-header h1 {
+                font-size: 2rem;
+            }
+            
+            .sidebar {
+                margin-bottom: 2rem;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .performance-table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .performance-table table {
+            width: 100%;
+            margin: 0;
+        }
+
+        .performance-table th {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .performance-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .performance-table tr:hover {
+            background: rgba(31, 119, 180, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="main-header">
+            <h1><i class="fas fa-chart-line"></i> Advanced Stock Market Analytics Dashboard</h1>
+            <p>Professional-grade financial analysis with ML predictions</p>
+        </div>
+
+        <!-- Market Overview -->
+        <div class="market-overview">
+            <h3><i class="fas fa-globe"></i> Market Overview</h3>
+            <div class="row" id="marketOverview">
+                <div class="col-md-3 mb-3">
+                    <div class="market-card">
+                        <h5>S&P 500</h5>
+                        <div class="price" id="sp500-price">Loading...</div>
+                        <div class="change" id="sp500-change">--</div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="market-card">
+                        <h5>NASDAQ</h5>
+                        <div class="price" id="nasdaq-price">Loading...</div>
+                        <div class="change" id="nasdaq-change">--</div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="market-card">
+                        <h5>Dow Jones</h5>
+                        <div class="price" id="dow-price">Loading...</div>
+                        <div class="change" id="dow-change">--</div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="market-card">
+                        <h5>VIX</h5>
+                        <div class="price" id="vix-price">Loading...</div>
+                        <div class="change" id="vix-change">--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <h3><i class="fas fa-cog"></i> Dashboard Controls</h3>
+                    <p>Configure your analysis parameters below:</p>
+
+                    <h4><i class="fas fa-chart-bar"></i> Stock Selection</h4>
+                    <select class="form-select" id="presetSelection">
+                        <option value="Custom">Custom</option>
+                        <option value="Tech Giants">Tech Giants</option>
+                        <option value="Electric Vehicle">Electric Vehicle</option>
+                        <option value="Financial">Financial</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Energy">Energy</option>
+                    </select>
+                    <input type="text" class="form-control" id="stockSymbols" placeholder="Enter stock symbols (comma-separated)" value="AAPL,GOOGL,MSFT,TSLA">
+
+                    <h4><i class="fas fa-calendar"></i> Time Range</h4>
+                    <select class="form-select" id="timeRange">
+                        <option value="30">1 Month</option>
+                        <option value="90">3 Months</option>
+                        <option value="180">6 Months</option>
+                        <option value="365" selected>1 Year</option>
+                        <option value="730">2 Years</option>
+                        <option value="1825">5 Years</option>
+                    </select>
+
+                    <h4><i class="fas fa-chart-line"></i> Visualization Options</h4>
+                    <select class="form-select" id="chartType">
+                        <option value="Candlestick">Candlestick</option>
+                        <option value="Line Chart">Line Chart</option>
+                        <option value="OHLC">OHLC</option>
+                        <option value="Volume Analysis">Volume Analysis</option>
+                    </select>
+
+                    <h4><i class="fas fa-calculator"></i> Technical Indicators</h4>
+                    <div class="checkbox-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="smaCheck" checked>
+                            <label class="form-check-label" for="smaCheck">SMA (20, 50)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="emaCheck">
+                            <label class="form-check-label" for="emaCheck">EMA (12, 26)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="bollingerCheck">
+                            <label class="form-check-label" for="bollingerCheck">Bollinger Bands</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rsiCheck">
+                            <label class="form-check-label" for="rsiCheck">RSI</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="macdCheck">
+                            <label class="form-check-label" for="macdCheck">MACD</label>
+                        </div>
+                    </div>
+
+                    <h4><i class="fas fa-robot"></i> AI Prediction Models</h4>
+                    <div class="alert alert-info">
+                        <small><i class="fas fa-info-circle"></i> ML predictions temporarily disabled for system stability</small>
+                    </div>
+
+                    <h4><i class="fas fa-download"></i> Export Options</h4>
+                    <select class="form-select mb-3" id="exportFormat">
+                        <option value="CSV">CSV</option>
+                        <option value="Excel">Excel</option>
+                        <option value="JSON">JSON</option>
+                    </select>
+                    <div class="btn-group-custom">
+                        <button class="btn btn-custom" id="exportDataBtn">
+                            <i class="fas fa-file-alt"></i> Export Data
+                        </button>
+                        <button class="btn btn-custom" id="exportChartsBtn">
+                            <i class="fas fa-chart-bar"></i> Export Charts
+                        </button>
+                    </div>
+
+                    <div class="mt-4">
+                        <button class="btn btn-custom w-100" id="loadDataBtn">
+                            <i class="fas fa-refresh"></i> Load Stock Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <div class="main-content">
+                    <!-- Tabs -->
+                    <ul class="nav nav-tabs" id="dashboardTabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="price-tab" data-bs-toggle="tab" href="#price">
+                                <i class="fas fa-chart-line"></i> Price Analysis
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="indicators-tab" data-bs-toggle="tab" href="#indicators">
+                                <i class="fas fa-calculator"></i> Technical Indicators
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="comparison-tab" data-bs-toggle="tab" href="#comparison">
+                                <i class="fas fa-balance-scale"></i> Portfolio Comparison
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="signals-tab" data-bs-toggle="tab" href="#signals">
+                                <i class="fas fa-traffic-light"></i> Trading Signals
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="dashboardTabContent">
+                        <!-- Price Analysis Tab -->
+                        <div class="tab-pane fade show active" id="price">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h2>Price Analysis</h2>
+                                <select class="form-select w-auto" id="selectedStock">
+                                    <option>Select stock for analysis</option>
+                                </select>
+                            </div>
+                            
+                            <div class="chart-container">
+                                <div id="priceChart" style="height: 500px;"></div>
+                            </div>
+
+                            <div class="row mt-4" id="priceMetrics">
+                                <!-- Price metrics will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Technical Indicators Tab -->
+                        <div class="tab-pane fade" id="indicators">
+                            <h2>Technical Indicators</h2>
+                            <div class="chart-container">
+                                <div id="indicatorsChart" style="height: 600px;"></div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h4>Latest Indicator Values</h4>
+                                <div class="performance-table">
+                                    <table class="table table-striped" id="indicatorsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Indicator</th>
+                                                <th>Value</th>
+                                                <th>Signal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Indicator values will be populated here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- Portfolio Comparison Tab -->
+                        <div class="tab-pane fade" id="comparison">
+                            <h2>Portfolio Comparison</h2>
+                            <div class="chart-container">
+                                <div id="comparisonChart" style="height: 500px;"></div>
+                            </div>
+
+                            <div class="mt-4">
+                                <h4>Performance Comparison</h4>
+                                <div class="performance-table">
+                                    <table class="table table-striped" id="performanceTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Symbol</th>
+                                                <th>Current Price</th>
+                                                <th>Total Return</th>
+                                                <th>1 Month Return</th>
+                                                <th>Volatility</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Performance data will be populated here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <h4>Correlation Matrix</h4>
+                                <div class="chart-container">
+                                    <div id="correlationChart" style="height: 400px;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trading Signals Tab -->
+                        <div class="tab-pane fade" id="signals">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h2>Trading Signals & Analysis</h2>
+                                <select class="form-select w-auto" id="signalStock">
+                                    <option>Select stock for signal analysis</option>
+                                </select>
+                            </div>
+
+                            <div id="tradingSignals">
+                                <!-- Trading signals will be populated here -->
+                            </div>
+
+                            <div class="mt-4">
+                                <h4>Risk Analysis</h4>
+                                <div class="row" id="riskMetrics">
+                                    <!-- Risk metrics will be populated here -->
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <h4>Technical Analysis Summary</h4>
+                                <div id="technicalSummary">
+                                    <!-- Technical analysis summary will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i>
+                        <h4 class="mt-3">Loading Stock Data...</h4>
+                        <p>Please wait while we fetch the latest market information.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Stock Market Dashboard JavaScript
+        class StockDashboard {
+            constructor() {
+                this.stockData = {};
+                this.currentSymbols = [];
+                this.selectedStock = '';
+                this.initializeEventListeners();
+                this.loadMarketOverview();
+                this.presetStocks = {
+                    "Tech Giants": "AAPL,GOOGL,MSFT,AMZN",
+                    "Electric Vehicle": "TSLA,NIO,RIVN,LCID",
+                    "Financial": "JPM,BAC,WFC,GS",
+                    "Healthcare": "JNJ,PFE,UNH,MRNA",
+                    "Energy": "XOM,CVX,COP,EOG"
+                };
+            }
+
+            initializeEventListeners() {
+                document.getElementById('presetSelection').addEventListener('change', this.handlePresetChange.bind(this));
+                document.getElementById('loadDataBtn').addEventListener('click', this.loadStockData.bind(this));
+                document.getElementById('exportDataBtn').addEventListener('click', this.exportData.bind(this));
+                document.getElementById('exportChartsBtn').addEventListener('click', this.exportCharts.bind(this));
+                document.getElementById('selectedStock').addEventListener('change', this.handleStockSelection.bind(this));
+                document.getElementById('signalStock').addEventListener('change', this.handleSignalStockSelection.bind(this));
+            }
+
+            handlePresetChange(event) {
+                const preset = event.target.value;
+                if (preset !== "Custom" && this.presetStocks[preset]) {
+                    document.getElementById('stockSymbols').value = this.presetStocks[preset];
+                }
+            }
+
+            async loadMarketOverview() {
+                const indices = {
+                    '^GSPC': 'sp500',
+                    '^IXIC': 'nasdaq',
+                    '^DJI': 'dow',
+                    '^VIX': 'vix'
+                };
+
+                // Simulate market data (in real implementation, you'd call a financial API)
+                const marketData = {
+                    '^GSPC': { price: 4567.89, change: 12.34, changePct: 0.27 },
+                    '^IXIC': { price: 14234.56, change: -45.67, changePct: -0.32 },
+                    '^DJI': { price: 34567.12, change: 89.45, changePct: 0.26 },
+                    '^VIX': { price: 18.45, change: -1.23, changePct: -6.25 }
+                };
+
+                Object.entries(indices).forEach(([symbol, id]) => {
+                    const data = marketData[symbol];
+                    if (data) {
+                        document.getElementById(`${id}-price`).textContent = data.price.toFixed(2);
+                        const changeElement = document.getElementById(`${id}-change`);
+                        const changeClass = data.change >= 0 ? 'positive' : 'negative';
+                        changeElement.textContent = `${data.change >= 0 ? '+' : ''}${data.change.toFixed(2)} (${data.changePct >= 0 ? '+' : ''}${data.changePct.toFixed(2)}%)`;
+                        changeElement.className = `change ${changeClass}`;
+                    }
+                });
+            }
+
+            async loadStockData() {
+                const symbols = document.getElementById('stockSymbols').value.split(',').map(s => s.trim().toUpperCase());
+                const modal = new bootstrap.Modal(document.getElementById('loadingModal'));
+                modal.show();
+
+                try {
+                    // Simulate loading stock data
+                    await this.simulateStockDataLoading(symbols);
+                    this.populateStockSelectors(symbols);
+                    this.createPriceChart();
+                    this.createIndicatorsChart();
+                    this.createComparisonChart();
+                    this.updateMetrics();
+                    modal.hide();
+                } catch (error) {
+                    console.error('Error loading stock data:', error);
+                    modal.hide();
+                    alert('Error loading stock data. Please try again.');
+                }
+            }
+
+            async simulateStockDataLoading(symbols) {
+                // Simulate API delay
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Generate sample stock data
+                this.stockData = {};
+                this.currentSymbols = symbols;
+                
+                symbols.forEach(symbol => {
+                    this.stockData[symbol] = this.generateSampleStockData(symbol);
+                });
+            }
+
+            generateSampleStockData(symbol) {
+                const data = [];
+                const startPrice = Math.random() * 200 + 50;
+                let currentPrice = startPrice;
+                const days = 365;
+
+                for (let i = 0; i < days; i++) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - (days - i));
+                    
+                    const change = (Math.random() - 0.5) * 0.1;
+                    currentPrice = currentPrice * (1 + change);
+                    
+                    data.push({
+                        date: date,
+                        open: currentPrice * (1 + (Math.random() - 0.5) * 0.02),
+                        high: currentPrice * (1 + Math.random() * 0.05),
+                        low: currentPrice * (1 - Math.random() * 0.05),
+                        close: currentPrice,
+                        volume: Math.floor(Math.random() * 10000000) + 1000000
+                    });
+                }
+
+                return data;
+            }
+
+            populateStockSelectors(symbols) {
+                const selectors = ['selectedStock', 'signalStock'];
+                selectors.forEach(selectorId => {
+                    const selector = document.getElementById(selectorId);
+                    selector.innerHTML = '<option value="">Select stock</option>';
+                    symbols.forEach(symbol => {
+                        const option = document.createElement('option');
+                        option.value = symbol;
+                        option.textContent = symbol;
+                        selector.appendChild(option);
+                    });
+                    if (symbols.length > 0) {
+                        selector.value = symbols[0];
+                        this.selectedStock = symbols[0];
+                    }
+                });
+            }
+
+            createPriceChart() {
+                if (!this.selectedStock || !this.stockData[this.selectedStock]) return;
+
+                const data = this.stockData[this.selectedStock];
+                const trace = {
+                    x: data.map(d => d.date),
+                    close: data.map(d => d.close),
+                    high: data.map(d => d.high),
+                    low: data.map(d => d.low),
+                    open: data.map(d => d.open),
+                    type: 'candlestick',
+                    name: this.selectedStock
+                };
+
+                const layout = {
+                    title: `${this.selectedStock} Stock Price`,
+                    xaxis: { title: 'Date' },
+                    yaxis: { title: 'Price ($)' },
+                    paper_bgcolor: 'white',
+                    plot_bgcolor: 'white'
+                };
+
+                Plotly.newPlot('priceChart', [trace], layout, {responsive: true});
+            }
+
+            createIndicatorsChart() {
+                if (!this.selectedStock || !this.stockData[this.selectedStock]) return;
+
+                const data = this.stockData[this.selectedStock];
+                
+                // Calculate RSI (simplified)
+                const rsi = this.calculateRSI(data.map(d => d.close));
+                
+                const trace1 = {
+                    x: data.map(d => d.date),
+                    y: rsi,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'RSI',
+                    line: { color: 'purple' }
+                };
+
+                const layout = {
+                    title: `${this.selectedStock} Technical Indicators`,
+                    xaxis: { title: 'Date' },
+                    yaxis: { title: 'RSI', range: [0, 100] },
+                    paper_bgcolor: 'white',
+                    plot_bgcolor: 'white',
+                    shapes: [
+                        {
+                            type: 'line',
+                            x0: data[0].date,
+                            x1: data[data.length - 1].date,
+                            y0: 70,
+                            y1: 70,
+                            line: { color: 'red', dash: 'dash' }
+                        },
+                        {
+                            type: 'line',
+                            x0: data[0].date,
+                            x1: data[data.length - 1].date,
+                            y0: 30,
+                            y1: 30,
+                            line: { color: 'green', dash: 'dash' }
+                        }
+                    ]
+                };
+
+                Plotly.newPlot('indicatorsChart', [trace1], layout, {responsive: true});
+            }
+
+            createComparisonChart() {
+                if (this.currentSymbols.length < 2) return;
+
+                const traces = this.currentSymbols.map(symbol => {
+                    const data = this.stockData[symbol];
+                    const normalizedPrices = this.normalizeToPercentage(data.map(d => d.close));
+                    
+                    return {
+                        x: data.map(d => d.date),
+                        y: normalizedPrices,
+                        type: 'scatter',
+                        mode: 'lines',
+                        name: symbol
+                    };
+                });
+
+                const layout = {
+                    title: 'Stock Performance Comparison (Normalized)',
+                    xaxis: { title: 'Date' },
+                    yaxis: { title: 'Percentage Change (%)' },
+                    paper_bgcolor: 'white',
+                    plot_bgcolor: 'white'
+                };
+
+                Plotly.newPlot('comparisonChart', traces, layout, {responsive: true});
+            }
+
+            calculateRSI(prices, period = 14) {
+                const rsi = [];
+                for (let i = 0; i < prices.length; i++) {
+                    if (i < period) {
+                        rsi.push(50); // Default RSI
+                    } else {
+                        let gains = 0;
+                        let losses = 0;
+                        
+                        for (let j = i - period + 1; j <= i; j++) {
+                            const change = prices[j] - prices[j - 1];
+                            if (change > 0) gains += change;
+                            else losses -= change;
+                        }
+                        
+                        const avgGain = gains / period;
+                        const avgLoss = losses / period;
+                        const rs = avgGain / avgLoss;
+                        rsi.push(100 - (100 / (1 + rs)));
+                    }
+                }
+                return rsi;
+            }
+
+            normalizeToPercentage(prices) {
+                const firstPrice = prices[0];
+                return prices.map(price => ((price - firstPrice) / firstPrice) * 100);
+            }
+
+            updateMetrics() {
+                if (!this.selectedStock || !this.stockData[this.selectedStock]) return;
+
+                const data = this.stockData[this.selectedStock];
+                const currentPrice = data[data.length - 1].close;
+                const previousPrice = data[data.length - 2].close;
+                const change = currentPrice - previousPrice;
+                const changePct = (change / previousPrice) * 100;
+
+                // Update price metrics
+                const metricsContainer = document.getElementById('priceMetrics');
+                metricsContainer.innerHTML = `
+                    <div class="col-md-3">
+                        <div class="metric-card">
+                            <h5>Current Price</h5>
+                            <div class="value">$${currentPrice.toFixed(2)}</div>
+                            <div class="change ${change >= 0 ? 'positive' : 'negative'}">
+                                ${change >= 0 ? '+' : ''}${change.toFixed(2)} (${changePct.toFixed(2)}%)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="metric-card">
+                            <h5>Volume</h5>
+                            <div class="value">${data[data.length - 1].volume.toLocaleString()}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="metric-card">
+                            <h5>52W High</h5>
+                            <div class="value">$${Math.max(...data.map(d => d.high)).toFixed(2)}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="metric-card">
+                            <h5>52W Low</h5>
+                            <div class="value">$${Math.min(...data.map(d => d.low)).toFixed(2)}</div>
+                        </div>
+                    </div>
+                `;
+
+                // Update performance table
+                this.updatePerformanceTable();
+                this.updateTradingSignals();
+            }
+
+            updatePerformanceTable() {
+                const tbody = document.querySelector('#performanceTable tbody');
+                tbody.innerHTML = '';
+
+                this.currentSymbols.forEach(symbol => {
+                    const data = this.stockData[symbol];
+                    const currentPrice = data[data.length - 1].close;
+                    const startPrice = data[0].close;
+                    const totalReturn = ((currentPrice - startPrice) / startPrice) * 100;
+                    
+                    const monthAgoPrice = data[Math.max(0, data.length - 30)].close;
+                    const monthReturn = ((currentPrice - monthAgoPrice) / monthAgoPrice) * 100;
+                    
+                    const returns = data.slice(1).map((d, i) => (d.close - data[i].close) / data[i].close);
+                    const volatility = Math.sqrt(returns.reduce((sum, r) => sum + r * r, 0) / returns.length) * Math.sqrt(252) * 100;
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><strong>${symbol}</strong></td>
+                        <td>$${currentPrice.toFixed(2)}</td>
+                        <td class="${totalReturn >= 0 ? 'text-success' : 'text-danger'}">${totalReturn.toFixed(2)}%</td>
+                        <td class="${monthReturn >= 0 ? 'text-success' : 'text-danger'}">${monthReturn.toFixed(2)}%</td>
+                        <td>${volatility.toFixed(2)}%</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+
+            updateTradingSignals() {
+                if (!this.selectedStock || !this.stockData[this.selectedStock]) return;
+
+                const data = this.stockData[this.selectedStock];
+                const rsi = this.calculateRSI(data.map(d => d.close));
+                const currentRSI = rsi[rsi.length - 1];
+
+                let rsiSignal, rsiReason;
+                if (currentRSI > 70) {
+                    rsiSignal = 'SELL';
+                    rsiReason = `RSI (${currentRSI.toFixed(1)}) indicates overbought conditions`;
+                } else if (currentRSI < 30) {
+                    rsiSignal = 'BUY';
+                    rsiReason = `RSI (${currentRSI.toFixed(1)}) indicates oversold conditions`;
+                } else {
+                    rsiSignal = 'HOLD';
+                    rsiReason = `RSI (${currentRSI.toFixed(1)}) is in neutral zone`;
+                }
+
+                const signalsContainer = document.getElementById('tradingSignals');
+                signalsContainer.innerHTML = `
+                    <h4>Current Trading Signals</h4>
+                    <div class="signal-card ${rsiSignal.toLowerCase()}">
+                        <h4>RSI</h4>
+                        <div class="signal">${rsiSignal}</div>
+                        <div class="reason">${rsiReason}</div>
+                    </div>
+                `;
+
+                // Update risk metrics
+                const returns = data.slice(1).map((d, i) => (d.close - data[i].close) / data[i].close);
+                const volatility = Math.sqrt(returns.reduce((sum, r) => sum + r * r, 0) / returns.length) * Math.sqrt(252) * 100;
+                const sharpeRatio = (returns.reduce((sum, r) => sum + r, 0) / returns.length * 252) / (volatility / 100);
+                
+                let maxDrawdown = 0;
+                let peak = data[0].close;
+                data.forEach(d => {
+                    if (d.close > peak) peak = d.close;
+                    const drawdown = (d.close - peak) / peak * 100;
+                    if (drawdown < maxDrawdown) maxDrawdown = drawdown;
+                });
+
+                const riskContainer = document.getElementById('riskMetrics');
+                riskContainer.innerHTML = `
+                    <div class="col-md-4">
+                        <div class="metric-card">
+                            <h5>Volatility (Annual)</h5>
+                            <div class="value">${volatility.toFixed(2)}%</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="metric-card">
+                            <h5>Sharpe Ratio</h5>
+                            <div class="value">${sharpeRatio.toFixed(2)}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="metric-card">
+                            <h5>Max Drawdown</h5>
+                            <div class="value">${maxDrawdown.toFixed(2)}%</div>
+                        </div>
+                    </div>
+                `;
+
+                // Technical summary
+                const summaryContainer = document.getElementById('technicalSummary');
+                const prices = data.map(d => d.close);
+                const sma20 = this.calculateSMA(prices, 20);
+                const sma50 = this.calculateSMA(prices, 50);
+                const currentSMA20 = sma20[sma20.length - 1];
+                const currentSMA50 = sma50[sma50.length - 1];
+                const currentPrice = prices[prices.length - 1];
+
+                let trend = 'Mixed';
+                if (currentPrice > currentSMA20 && currentSMA20 > currentSMA50) {
+                    trend = 'Bullish';
+                } else if (currentPrice < currentSMA20 && currentSMA20 < currentSMA50) {
+                    trend = 'Bearish';
+                }
+
+                summaryContainer.innerHTML = `
+                    <p><strong>RSI Analysis:</strong> Current RSI is ${currentRSI.toFixed(1)} - ${currentRSI > 70 ? 'Overbought' : currentRSI < 30 ? 'Oversold' : 'Neutral'}</p>
+                    <p><strong>Trend Analysis:</strong> ${trend} (Price: $${currentPrice.toFixed(2)}, SMA20: $${currentSMA20.toFixed(2)}, SMA50: $${currentSMA50.toFixed(2)})</p>
+                `;
+            }
+
+            calculateSMA(prices, period) {
+                const sma = [];
+                for (let i = 0; i < prices.length; i++) {
+                    if (i < period - 1) {
+                        sma.push(prices[i]);
+                    } else {
+                        const sum = prices.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0);
+                        sma.push(sum / period);
+                    }
+                }
+                return sma;
+            }
+
+            handleStockSelection(event) {
+                this.selectedStock = event.target.value;
+                this.createPriceChart();
+                this.createIndicatorsChart();
+                this.updateMetrics();
+            }
+
+            handleSignalStockSelection(event) {
+                this.selectedStock = event.target.value;
+                this.updateTradingSignals();
+            }
+
+            exportData() {
+                const format = document.getElementById('exportFormat').value;
+                if (!this.stockData || Object.keys(this.stockData).length === 0) {
+                    alert('Please load stock data first');
+                    return;
+                }
+
+                let content = '';
+                let mimeType = '';
+                let filename = '';
+
+                switch (format) {
+                    case 'CSV':
+                        content = this.generateCSV();
+                        mimeType = 'text/csv';
+                        filename = 'stock_data.csv';
+                        break;
+                    case 'JSON':
+                        content = JSON.stringify(this.stockData, null, 2);
+                        mimeType = 'application/json';
+                        filename = 'stock_data.json';
+                        break;
+                    case 'Excel':
+                        alert('Excel export requires server-side processing');
+                        return;
+                }
+
+                const blob = new Blob([content], { type: mimeType });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            generateCSV() {
+                let csv = 'Symbol,Date,Open,High,Low,Close,Volume\n';
+                Object.entries(this.stockData).forEach(([symbol, data]) => {
+                    data.forEach(row => {
+                        csv += `${symbol},${row.date.toISOString().split('T')[0]},${row.open.toFixed(2)},${row.high.toFixed(2)},${row.low.toFixed(2)},${row.close.toFixed(2)},${row.volume}\n`;
+                    });
+                });
+                return csv;
+            }
+
+            exportCharts() {
+                alert('Chart export functionality would require additional libraries for image generation');
+            }
+        }
+
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            window.dashboard = new StockDashboard();
+        });
+    </script>
+</body>
+</html>
