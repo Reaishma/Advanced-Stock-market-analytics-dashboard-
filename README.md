@@ -166,7 +166,7 @@ A comprehensive, professional-grade stock market analysis and prediction dashboa
 
 ##🚀 View Demo
 
-[View Live Demo](.  )
+[View Live Demo](https://reaishma.github.io/Advanced-Stock-market-analytics-dashboard-/)
 
 
 ## 📊 Usage Guide
