@@ -58,6 +58,80 @@ A comprehensive, professional-grade stock market analysis and prediction dashboa
 - **Custom Stock Selection**: Support for any publicly traded stock symbols
 - **Flexible Time Ranges**: From 1 month to 5 years of historical data
 
+## System Architecture
+
+### Frontend Architecture
+- **Framework**: Streamlit web framework for rapid development of data applications
+- **Layout**: Wide layout with expandable sidebar for controls
+- **Caching**: Streamlit's built-in caching system for performance optimization
+- **Interactivity**: Real-time user input handling with dynamic chart updates
+
+### Backend Architecture
+- **Modular Design**: Utility-based architecture with separate modules for different functionalities
+- **Data Layer**: yfinance API integration for real-time stock data fetching
+- **Processing Layer**: Pandas and NumPy for data manipulation and analysis
+- **Visualization Layer**: Plotly for interactive charting and visualization
+
+### Key Design Principles
+- **Separation of Concerns**: Each utility module handles a specific aspect (data fetching, indicators, predictions, visualization, export)
+- **Caching Strategy**: 5-minute cache duration for stock data to balance performance and data freshness
+- **Error Handling**: Comprehensive error handling throughout the application
+- **Scalability**: Modular structure allows for easy extension of features
+
+## Key Components
+
+### 1. Data Fetcher (`utils/data_fetcher.py`)
+- **Purpose**: Handles stock data retrieval from Yahoo Finance API
+- **Features**: 
+  - Cached data fetching with 5-minute TTL
+  - Data validation and cleaning
+  - Error handling for invalid symbols or API failures
+- **Technology**: yfinance library for market data access
+
+### 2. Technical Indicators (`utils/indicators.py`)
+- **Purpose**: Calculates various technical analysis indicators
+- **Features**:
+  - Simple Moving Averages (SMA)
+  - Exponential Moving Averages (EMA)
+  - Bollinger Bands
+  - Additional indicators (RSI, MACD, etc.)
+- **Implementation**: Pure mathematical calculations using pandas rolling windows
+
+### 3. Prediction Models (`utils/prediction_models.py`)
+- **Purpose**: Implements machine learning models for stock price forecasting
+- **Features**:
+  - Feature engineering from stock data
+  - Multiple ML algorithms (Linear Regression, Random Forest)
+  - Model performance evaluation
+  - Lookback window configuration
+- **Technology**: scikit-learn for machine learning algorithms
+
+### 4. Chart Visualizer (`utils/visualizations.py`)
+- **Purpose**: Creates interactive charts and visualizations
+- **Features**:
+  - Multiple chart types (Candlestick, Line, OHLC, Volume)
+  - Technical indicator overlays
+  - Customizable color schemes
+  - Interactive plotly charts
+- **Technology**: Plotly for interactive visualizations
+
+### 5. Export Utils (`utils/export_utils.py`)
+- **Purpose**: Handles data and chart export functionality
+- **Features**:
+  - Multiple export formats (CSV, Excel, JSON)
+  - Chart export capabilities
+  - Download button integration
+- **Technology**: Pandas for data export, Plotly for chart export
+
+## Data Flow
+
+1. **User Input**: Stock symbols and analysis parameters entered via sidebar
+2. **Data Fetching**: DataFetcher retrieves historical stock data from Yahoo Finance
+3. **Data Processing**: TechnicalIndicators calculates various technical analysis metrics
+4. **Prediction**: PredictionModels generates price forecasts using ML algorithms
+5. **Visualization**: ChartVisualizer creates interactive charts with indicators and predictions
+6. **Export**: ExportUtils provides data and chart download functionality
+
 ## 🚀 Quick Start
 
 ### Option 1: Streamlit Application (Recommended)
@@ -246,6 +320,39 @@ textColor = "#262730"
 2. Add new categories with appropriate stock symbols
 3. Ensure proper validation for symbol formatting
 
+## External Dependencies
+
+### Core Dependencies
+- **streamlit**: Web application framework
+- **pandas**: Data manipulation and analysis
+- **numpy**: Numerical computing
+- **plotly**: Interactive visualization library
+- **yfinance**: Yahoo Finance API wrapper
+- **scikit-learn**: Machine learning algorithms
+
+### Data Sources
+- **Yahoo Finance API**: Primary source for real-time and historical stock data
+- **yfinance Library**: Provides easy access to Yahoo Finance data with built-in error handling
+
+## Deployment Strategy
+
+### Current Setup
+- **Development**: Local Streamlit server for development and testing
+- **Caching**: In-memory caching with 5-minute TTL for performance
+- **Session Management**: Streamlit's built-in session state management
+
+### Production Considerations
+- **Scalability**: Modular architecture supports easy horizontal scaling
+- **Caching**: Current in-memory caching suitable for single-instance deployment
+- **Data Persistence**: No database required - relies on external API for data
+- **Performance**: Cached data fetching reduces API calls and improves response times
+
+### Recommended Deployment
+- **Platform**: Streamlit Cloud, Heroku, or similar cloud platform
+- **Environment**: Python 3.7+ with pip package management
+- **Configuration**: Environment variables for API keys if needed
+- **Monitoring**: Application logs through Streamlit's built-in logging
+
 ## 🚀 Deployment
 
 ### Streamlit Cloud
@@ -334,6 +441,15 @@ fig = ChartVisualizer().create_price_chart(data, symbol, chart_type)
 # Create comparison chart
 fig = ChartVisualizer().create_comparison_chart(comparison_data)
 ```
+
+## Technical Notes
+
+### Architecture Decisions
+- **Streamlit Choice**: Rapid prototyping and deployment of data applications
+- **Modular Structure**: Easier maintenance and testing of individual components
+- **Plotly Integration**: Superior interactive charting capabilities over static alternatives
+- **yfinance API**: Free, reliable stock data source with comprehensive coverage
+
 ## Author 🧑‍💻
 
 **Reaishma N**
