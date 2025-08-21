@@ -8,9 +8,9 @@ A comprehensive, professional-grade stock market analysis and prediction dashboa
 ![Streamlit](https://img.shields.io/badge/Streamlit-Latest-red)
 
 
-## 🚀 View Demo
+# 🚀 View Demo
 
-[View Live Demo](https://reaishma.github.io/Advanced-Stock-market-analytics-dashboard-/)
+View Live Demo https://reaishma.github.io/Advanced-Stock-market-analytics-dashboard-/
 
 ## Recent Changes
 
