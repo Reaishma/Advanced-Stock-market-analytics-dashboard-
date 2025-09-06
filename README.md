@@ -211,6 +211,9 @@ View Live Demo https://reaishma.github.io/Advanced-Stock-market-analytics-dashbo
 - Latest indicator values table
 
 #### 📋 Portfolio Comparison
+
+![portfolio comparison](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Sep%206%2C%202025%2010_37_48%20AM%20GMT%2B05_30.png)
+
 - Normalized performance comparison across multiple stocks
 - Performance metrics table with returns and volatility
 - Correlation matrix heatmap
