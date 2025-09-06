@@ -47,6 +47,9 @@ View Live Demo https://reaishma.github.io/Advanced-Stock-market-analytics-dashbo
 - **Real-time Market Overview**: Live data from S&P 500, NASDAQ, Dow Jones, and VIX
 - **Interactive Price Charts**: Candlestick, Line, OHLC, and Volume analysis charts
 - **Technical Indicators**: SMA, EMA, Bollinger Bands, RSI, MACD, Stochastic, ATR
+
+![technical indicators](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Sep%206%2C%202025%2010_38_52%20AM%20GMT%2B05_30.png)
+
 - **Portfolio Comparison**: Multi-stock performance analysis with correlation matrices
 - **Trading Signals**: AI-powered buy/sell/hold recommendations with detailed reasoning
 
