@@ -49,6 +49,9 @@ View Live Demo https://reaishma.github.io/Advanced-Stock-market-analytics-dashbo
 - **Technical Indicators**: SMA, EMA, Bollinger Bands, RSI, MACD, Stochastic, ATR
 - **Portfolio Comparison**: Multi-stock performance analysis with correlation matrices
 - **Trading Signals**: AI-powered buy/sell/hold recommendations with detailed reasoning
+
+![Trading signals](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Sep%206%2C%202025%2010_37_01%20AM%20GMT%2B05_30.png)
+
 - **Risk Analysis**: Volatility, Sharpe ratio, and maximum drawdown calculations
 
 ### Professional UI/UX
