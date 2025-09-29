@@ -2,7 +2,7 @@
 
 A comprehensive, professional-grade stock market analysis and prediction dashboard. The application provides real-time stock data visualization, technical analysis indicators, and machine learning-based price predictions through an interactive web interface.
 
-![Dashboard Preview](https://img.shields.io/badge/Status-deployed%-brightgreen)
+![Dashboard Preview](https://img.shields.io/badge/Status-deployed20%-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 ![Python](https://img.shields.io/badge/Python-3.7%2B-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Latest-red)
