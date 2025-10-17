@@ -225,6 +225,8 @@ A comprehensive, professional-grade stock market analysis and prediction dashboa
 - Risk-adjusted performance analysis
 
 #### 📝 Trading Signals
+
+![Trading signals](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Oct%2016%2C%202025%206_58_01%20AM%20GMT%2B05_30.png)
 - AI-generated buy/sell/hold recommendations
 - Risk analysis with volatility and Sharpe ratio
 - Maximum drawdown calculations
