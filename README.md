@@ -1,5 +1,7 @@
 # Advanced Stock Market Analytics Dashboard
 
+![advanced stock](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Oct%2016%2C%202025%206_58_30%20AM%20GMT%2B05_30.png)
+
 A comprehensive, professional-grade stock market analysis and prediction dashboard. The application provides real-time stock data visualization, technical analysis indicators, and machine learning-based price predictions through an interactive web interface.
 
 
