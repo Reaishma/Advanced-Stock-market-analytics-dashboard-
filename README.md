@@ -56,8 +56,6 @@ A comprehensive, professional-grade stock market analysis and prediction dashboa
 - **Portfolio Comparison**: Multi-stock performance analysis with correlation matrices
 - **Trading Signals**: AI-powered buy/sell/hold recommendations with detailed reasoning
 
-![Trading signals](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Sep%206%2C%202025%2010_37_01%20AM%20GMT%2B05_30.png)
-
 - **Risk Analysis**: Volatility, Sharpe ratio, and maximum drawdown calculations
 
 ### Professional UI/UX
@@ -210,6 +208,7 @@ A comprehensive, professional-grade stock market analysis and prediction dashboa
 
 #### 📊 Technical Indicators
 ![Technical indicators](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Oct%2016%2C%202025%206_55_59%20AM%20GMT%2B05_30.png)
+
 - Comprehensive technical analysis charts
 - RSI with overbought/oversold levels
 - MACD with signal line and histogram
@@ -218,7 +217,7 @@ A comprehensive, professional-grade stock market analysis and prediction dashboa
 
 #### 📋 Portfolio Comparison
 
-![portfolio comparison](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Sep%206%2C%202025%2010_37_48%20AM%20GMT%2B05_30.png)
+![portfolio comparison](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Oct%2016%2C%202025%206_57_26%20AM%20GMT%2B05_30.png)
 
 - Normalized performance comparison across multiple stocks
 - Performance metrics table with returns and volatility
