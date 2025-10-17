@@ -202,7 +202,6 @@ A comprehensive, professional-grade stock market analysis and prediction dashboa
 
 #### 📈 Price Analysis
 
-![price analysis](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Sep%206%2C%202025%2010_35_26%20AM%20GMT%2B05_30.png)
 
 - Interactive candlestick or line charts
 - Technical indicator overlays
@@ -210,6 +209,7 @@ A comprehensive, professional-grade stock market analysis and prediction dashboa
 - Real-time price change indicators
 
 #### 📊 Technical Indicators
+![Technical indicators](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Oct%2016%2C%202025%206_55_59%20AM%20GMT%2B05_30.png)
 - Comprehensive technical analysis charts
 - RSI with overbought/oversold levels
 - MACD with signal line and histogram
