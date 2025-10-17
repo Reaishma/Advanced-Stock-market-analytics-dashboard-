@@ -16,7 +16,7 @@ A comprehensive, professional-grade stock market analysis and prediction dashboa
 
 **Web Interface on https://reaishma.github.io/Advanced-Stock-market-analytics-dashboard-/** 
 
-![Overview](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Sep%206%2C%202025%2010_34_57%20AM%20GMT%2B05_30.png)
+![Overview](https://github.com/Reaishma/Advanced-Stock-market-analytics-dashboard-/blob/main/chrome_screenshot_Oct%2016%2C%202025%207_02_04%20AM%20GMT%2B05_30.png)
 
 ## Recent Changes
 
